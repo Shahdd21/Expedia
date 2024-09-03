@@ -1,31 +1,47 @@
+import java.util.ArrayList;
+
 public class Itinerary<E> {
 
-     E details;
+    private String flight_name;
+    private String fromPlace;
+    private String toPlace;
+    private String fromDate;
+    private String toDate;
+    private double cost;
     private int adults;
     private int children;
     private int infants;
     private double totalCost;
 
-    public void setDetails(E obj){
-        this.details = obj;
-    }
+    private static ArrayList<Itinerary<Flight>> flightReservations = new ArrayList<>();
 
-    public void setChildren(int children) {
+    Itinerary(String flight_name, String fromPlace, String toPlace, String fromDate, String toDate, double cost,
+              int adults, int children, int infants){
+        this.flight_name = flight_name;
+        this.fromPlace = fromPlace;
+        this.toPlace = toPlace;
+        this.toDate = toDate;
+        this.fromDate = fromDate;
+        this.cost = cost;
         this.children = children;
-    }
-
-    public void setAdults(int adults) {
         this.adults = adults;
-    }
-
-    public void setInfants(int infants) {
         this.infants = infants;
+
+        totalCost += cost;
     }
 
-    public void list(){
-        System.out.println(details);
-        System.out.println("Adults: "+ adults);
-        System.out.println("Children: "+ children);
-        System.out.println("Infants: "+ infants);
+    public static void add(Itinerary<Flight> itinerary){
+        flightReservations.add(itinerary);
+    }
+
+    public static void list(){
+        for(Itinerary<Flight> flight : flightReservations){
+            System.out.println(flight.flight_name);
+            System.out.println(flight.fromPlace);
+            System.out.println(flight.toPlace);
+            System.out.println(flight.fromDate);
+            System.out.println(flight.toDate);
+            System.out.println(flight.cost);
+        }
     }
 }

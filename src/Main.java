@@ -113,11 +113,8 @@ public class Main {
             makeItinerary(user);
 
         else if(choice == 3){
-            for(Itinerary booking : TurkishFlightsAPI.getReservations()){
-                booking.list();
-            }
+            Itinerary.list();
         }
-
     }
 
     public static <E> void makeItinerary(User user){
@@ -196,6 +193,11 @@ public class Main {
 
         input.nextLine();
 
-        TurkishFlightsAPI.reserve(adults,children,infants, flights.get(choice-1));
+        Flight chosenFlight = flights.get(choice-1);
+
+        Itinerary<Flight> targetFlight = new Itinerary<>(chosenFlight.getName(),fromCity,toCity,chosenFlight.getFromDate(),
+                chosenFlight.getToDate(), chosenFlight.getCost(),adults,children,infants);
+
+        Flight.reserve(targetFlight, chosenFlight.getName());
     }
 }

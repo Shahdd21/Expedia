@@ -2,36 +2,26 @@ import java.util.*;
 
 public class TurkishFlightsAPI {
 
-   private static ArrayList<Itinerary> reservations = new ArrayList<>();
+   // private static ArrayList<Itinerary<Flight>> reservations = new ArrayList<>();
 
+    private static ArrayList<TurkishFlight> flights = new ArrayList<>();
+    static {
+        flights.add(new TurkishFlight("20-1-2024", "21-1-2024", 150));
+        flights.add(new TurkishFlight("22-1-2024", "23-1-2024", 200));
+        flights.add(new TurkishFlight("24-1-2024", "25-1-2024", 250));
+    }
 
     public static ArrayList<TurkishFlight> getFlights(){
-
-        ArrayList<TurkishFlight> flights = new ArrayList<>();
-            flights.add(new TurkishFlight("20-1-2024","21-1-2024",150));
-            flights.add(new TurkishFlight("22-1-2024","23-1-2024",200));
-            flights.add(new TurkishFlight("24-1-2024","25-1-2024",250));
-
         return flights;
     }
 
-    public static <E> void reserve(int adults, int children, int infants, E target){
-
-        Itinerary<E> booking = new Itinerary<E>();
-        booking.setAdults(adults);
-        booking.setDetails(target);
-        booking.setChildren(children);
-        booking.setInfants(infants);
-
-        reservations.add(booking);
-    }
-
-    public static ArrayList<Itinerary> getReservations(){
-        return reservations;
+    public static void reserve(Itinerary<Flight> chosenFlight){
+       // reservations.add(chosenFlight);
+        Itinerary.add(chosenFlight);
     }
 }
 
-class TurkishFlight{
+class TurkishFlight extends Flight{
     private String fromDate;
     private String toDate;
     private double cost;
