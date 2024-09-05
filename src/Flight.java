@@ -1,15 +1,33 @@
 public abstract class Flight {
 
-    protected abstract String getName();
-    protected abstract String getFromDate();
-    protected abstract String getToDate();
-    protected abstract double getCost();
+    protected String airlineName;
+    protected String fromDate;
+    protected String toDate;
+    protected double cost;
 
-    public static void reserve(Itinerary<Flight> flight, String name){
+    Flight(){}
 
-        if(name.equals("Turkish Airline"))
-            TurkishFlightsAPI.reserve(flight);
-//        else if(name.equals("AirCanada Flight"))
-//            AirCanadaAPI.reserve(flight);
+    Flight(String airlineName, String fromDate, String toDate, double cost){
+
+        this.airlineName = airlineName;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        this.cost = cost;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public String getToDate() {
+        return toDate;
+    }
+
+    public String getFromDate() {
+        return fromDate;
+    }
+
+    public double getCost() {
+        return cost;
     }
 }

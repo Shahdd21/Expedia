@@ -113,8 +113,8 @@ public class Main {
             makeItinerary(user);
 
         else if(choice == 3){
-            Itinerary itinerary = new Itinerary<>();
-            itinerary.list();
+
+            Itinerary.displayFlights();
         }
     }
 
@@ -174,16 +174,15 @@ public class Main {
         System.out.print("Enter to (date): ");
         String toDate = input.nextLine();
 
-        System.out.print("Enter number of adults, children and infants :");
+        System.out.print("Enter number of adults and children :");
         int adults = input.nextInt();
         int children = input.nextInt();
-        int infants = input.nextInt();
 
         ArrayList<TurkishFlight> flights = TurkishFlightsAPI.getFlights();
 
         for(TurkishFlight flight : flights){
             System.out.print("Airline: ");
-            System.out.println(flight.getName());
+            System.out.println(flight.getAirlineName());
             System.out.print("Departure date : "+flight.getFromDate()+" ");
             System.out.print("Arrival date : "+flight.getToDate()+" ");
             System.out.println("Cost : "+flight.getCost());
@@ -196,8 +195,7 @@ public class Main {
 
         Flight chosenFlight = flights.get(choice-1);
 
-        Itinerary<Flight> targetFlight = new Itinerary<Flight>(chosenFlight, adults, children, infants, fromCity, toCity);
+        Itinerary<Flight> targetFlight = new Itinerary<Flight>(chosenFlight, fromCity, toCity, adults, children);
 
-        Flight.reserve(targetFlight, chosenFlight.getName());
     }
 }
