@@ -113,7 +113,8 @@ public class Main {
             makeItinerary(user);
 
         else if(choice == 3){
-            Itinerary.list();
+            Itinerary itinerary = new Itinerary<>();
+            itinerary.list();
         }
     }
 
@@ -195,8 +196,7 @@ public class Main {
 
         Flight chosenFlight = flights.get(choice-1);
 
-        Itinerary<Flight> targetFlight = new Itinerary<>(chosenFlight.getName(),fromCity,toCity,chosenFlight.getFromDate(),
-                chosenFlight.getToDate(), chosenFlight.getCost(),adults,children,infants);
+        Itinerary<Flight> targetFlight = new Itinerary<Flight>(chosenFlight, adults, children, infants, fromCity, toCity);
 
         Flight.reserve(targetFlight, chosenFlight.getName());
     }

@@ -2,46 +2,38 @@ import java.util.ArrayList;
 
 public class Itinerary<E> {
 
-    private String flight_name;
-    private String fromPlace;
-    private String toPlace;
-    private String fromDate;
-    private String toDate;
-    private double cost;
+    private E flight_or_hotel;
     private int adults;
     private int children;
     private int infants;
+    private String fromCity;
+    private String toCity;
     private double totalCost;
 
-    private static ArrayList<Itinerary<Flight>> flightReservations = new ArrayList<>();
+    private ArrayList<Itinerary<E>> reservations = new ArrayList<>();
 
-    Itinerary(String flight_name, String fromPlace, String toPlace, String fromDate, String toDate, double cost,
-              int adults, int children, int infants){
-        this.flight_name = flight_name;
-        this.fromPlace = fromPlace;
-        this.toPlace = toPlace;
-        this.toDate = toDate;
-        this.fromDate = fromDate;
-        this.cost = cost;
-        this.children = children;
+    Itinerary(){}
+
+    Itinerary(E flight_or_hotel, int adults, int children, int infants, String fromCity, String toCity){
+        this.flight_or_hotel = flight_or_hotel;
         this.adults = adults;
+        this.children = children;
         this.infants = infants;
-
-        totalCost += cost;
+        this.fromCity = fromCity;
+        this.toCity = toCity;
     }
 
-    public static void add(Itinerary<Flight> itinerary){
-        flightReservations.add(itinerary);
+    public void add(Itinerary<E> itinerary){
+        reservations.add(itinerary);
     }
 
-    public static void list(){
-        for(Itinerary<Flight> flight : flightReservations){
-            System.out.println(flight.flight_name);
-            System.out.println(flight.fromPlace);
-            System.out.println(flight.toPlace);
-            System.out.println(flight.fromDate);
-            System.out.println(flight.toDate);
-            System.out.println(flight.cost);
+    public void list(){
+        for(Itinerary<E> itinerary : reservations){
+            System.out.println("From City: "+ itinerary.fromCity+" to City: "+ itinerary.toCity);
+            System.out.println(itinerary.flight_or_hotel.toString());
+            System.out.println(itinerary.adults);
+            System.out.println(itinerary.children);
+            System.out.println(itinerary.infants);
         }
     }
 }

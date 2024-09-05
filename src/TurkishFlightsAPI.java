@@ -17,7 +17,8 @@ public class TurkishFlightsAPI {
 
     public static void reserve(Itinerary<Flight> chosenFlight){
        // reservations.add(chosenFlight);
-        Itinerary.add(chosenFlight);
+        Itinerary<Flight> flight = new Itinerary<>();
+        flight.add(chosenFlight);
     }
 }
 
@@ -50,5 +51,9 @@ class TurkishFlight extends Flight{
 
     public double getCost() {
         return cost;
+    }
+
+    public String toString(){
+        return getName()+" From date "+getFromDate()+" To date "+getToDate()+" Cost "+getCost();
     }
 }
