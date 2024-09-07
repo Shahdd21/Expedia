@@ -1,4 +1,4 @@
-public abstract class Flight {
+public abstract class Flight implements Bookable {
 
     protected String airlineName;
     protected String fromDate;

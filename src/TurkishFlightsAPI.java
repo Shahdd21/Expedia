@@ -13,8 +13,8 @@ public class TurkishFlightsAPI {
         return flights;
     }
 
-    public static void bookFlight(Flight flight, String fromCity, String toCity, int children, int adults, int infants){
-        Itinerary<Flight> ite = new Itinerary<>(flight, fromCity, toCity, children, adults);
-        ite.addFlight(ite);
+    public static void bookFlight(Flight flight, String fromCity, String toCity, int children, int adults){
+        Itinerary<Flight> iti = new Itinerary<>(flight, fromCity, toCity, adults, children);
+        iti.add();
     }
 }

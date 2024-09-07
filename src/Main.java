@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         usernames_passwords.put("shahd","123");
+        users.add(new User("Shahd Mahmoud Muhammed","shahd","123","shahd@gmail.com","02115","5569")) ;
 
         while(true) {
             System.out.println("Menu:");
@@ -114,7 +115,7 @@ public class Main {
 
         else if(choice == 3){
 
-            Itinerary.displayFlights();
+            Itinerary.list();
         }
     }
 
@@ -131,8 +132,10 @@ public class Main {
 
             if (choice == 1)
                 addFlight(user.getFull_name());
-//        else if(choice == 2)
-//            addHotel();
+
+            else if(choice == 2)
+                 addHotel();
+
             else if (choice == 3) {
                 System.out.println("Enter payment choice: ");
                 System.out.printf("1: Debit Card - Owner : %s Card Number : %s\n", user.getFull_name(), user.getDebit());
@@ -188,14 +191,71 @@ public class Main {
             System.out.println("Cost : "+flight.getCost());
         }
 
+        ArrayList<AirCanada> flights2 = AirCanadaAPI.getFlights();
+
+        for(AirCanada flight : flights2){
+            System.out.print("Airline: ");
+            System.out.println(flight.getAirlineName());
+            System.out.print("Departure date : "+flight.getFromDate()+" ");
+            System.out.print("Arrival date : "+flight.getToDate()+" ");
+            System.out.println("Cost : "+flight.getCost());
+        }
+
         System.out.print("Enter the number of your choice: ");
         int choice = input.nextInt();
 
         input.nextLine();
 
-        Flight chosenFlight = flights.get(choice-1);
+        Flight chosenFlight;
 
-        Itinerary<Flight> targetFlight = new Itinerary<Flight>(chosenFlight, fromCity, toCity, adults, children);
+        if(choice < flights.size()) {
+            chosenFlight = flights.get(choice - 1);
+        }
+        else{
+            chosenFlight = flights2.get(choice-flights.size());
+        }
 
+        TurkishFlightsAPI.bookFlight(chosenFlight, fromCity, toCity, adults, children);
+    }
+
+    public static <E> void addHotel(){
+
+        input.nextLine();
+
+        System.out.print("Enter city: ");
+        String city = input.nextLine();
+
+        System.out.print("Enter country: ");
+        String country = input.nextLine();
+
+        System.out.print("Enter from (date): ");
+        String fromDate = input.nextLine();
+
+        System.out.print("Enter to (date): ");
+        String toDate = input.nextLine();
+
+        System.out.print("Enter number of adults and children :");
+        int adults = input.nextInt();
+        int children = input.nextInt();
+
+        ArrayList<HiltonRoom> Hilton = HiltonAPI.getRooms();
+
+        for(HiltonRoom room : Hilton){
+
+            System.out.print("Hotel : "+room.getHotel_name()+" ");
+            System.out.print("Room type: "+room.room_type+" ");
+            System.out.print("Price per night: "+room.cost+" ");
+            System.out.print("From date: "+room.getFromDate()+" ");
+            System.out.println("to date: "+room.getToDate());
+        }
+
+        System.out.print("Enter the number of your choice: ");
+        int choice = input.nextInt();
+
+        input.nextLine();
+
+        Hotel chosenHotel = Hilton.get(choice-1);
+
+        HiltonAPI.bookRoom(chosenHotel,city,country,adults,children);
     }
 }
