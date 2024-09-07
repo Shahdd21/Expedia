@@ -7,7 +7,7 @@ public class HiltonRoom extends Hotel{
     }
 
     public String toString(){
-        return "Hilton Hotel, Room Type : "+ room_type +"From date : "+ fromDate
-                +"to date : "+toDate+" Price per night : "+cost;
+        return "Hilton Hotel, Room Type : "+ room_type +" From date : "+ fromDate
+                +" to date : "+toDate+" Price per night : "+cost;
     }
 }
