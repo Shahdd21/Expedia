@@ -1,9 +1,9 @@
 public abstract class Flight implements Bookable {
 
-    protected String airlineName;
-    protected String fromDate;
-    protected String toDate;
-    protected double cost;
+    private String airlineName;
+    private String fromDate;
+    private String toDate;
+    private double cost;
 
     Flight(){}
 
@@ -29,5 +29,13 @@ public abstract class Flight implements Bookable {
 
     public double getCost() {
         return cost;
+    }
+
+    public static void bookFlight(Flight flight, String fromCity, String toCity, int adults, int children){
+        if(flight.getAirlineName().equals("Turkish Airline"))
+            TurkishFlightsAPI.bookFlight(flight,fromCity,toCity,adults,children);
+
+        else if(flight.getAirlineName().equals("AirCanada Airline"))
+            AirCanadaAPI.bookFlight(flight,fromCity,toCity,adults,children);
     }
 }

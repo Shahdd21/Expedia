@@ -1,4 +1,4 @@
-public class PaypalAPI {
+public class StripeAPI {
 
     public static boolean makePayment(Card card, double money) {
 

@@ -1,17 +1,9 @@
-public class PaypalCreditCard {
-    String name;
-    String address;
-    String expire_date;
-    int ccv;
-    double balance;
+public class PaypalCreditCard extends Card{
 
     PaypalCreditCard(){}
 
-    PaypalCreditCard(String name, String address, String id, String expire_date, int ccv, double balance){
-        this.name = name;
-        this.address = address;
-        this.expire_date = expire_date;
-        this.ccv = ccv;
-        this.balance = balance;
+    PaypalCreditCard(String user_full_name,String address, String phone_number, int cvv, double balance){
+        super("PayPal",user_full_name,address,phone_number,cvv,balance);
     }
+
 }

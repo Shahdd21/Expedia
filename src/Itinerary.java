@@ -10,7 +10,7 @@ public class Itinerary<E extends Bookable> {
 
     private static double totalCost = 0.0;
 
-    private static final ArrayList<Itinerary<? extends Bookable>> bookedItems = new ArrayList<>();
+    public static final ArrayList<Itinerary<? extends Bookable>> bookedItems = new ArrayList<>();
 
     Itinerary(){}
 
@@ -31,13 +31,17 @@ public class Itinerary<E extends Bookable> {
     public static void list(){
         for(Itinerary<? extends Bookable> ite : bookedItems){
             System.out.println(ite.flight_or_hotel.toString());
-            System.out.println(ite.fromCity);
-            System.out.println(ite.toCity);
-            System.out.println(ite.adults+" "+ite.children);
+            System.out.println("From: "+ite.fromCity);
+            System.out.println("to: "+ite.toCity);
+            System.out.println("Adults: "+ite.adults+" children: "+ite.children);
             System.out.println("-----------------------------");
         }
 
         Itinerary ite = new Itinerary<>();
-        System.out.println(ite.totalCost);
+        System.out.println("Total cost: "+ite.totalCost);
+    }
+
+    public static double getTotalCost(){
+        return totalCost;
     }
 }

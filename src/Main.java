@@ -9,23 +9,24 @@ public class Main {
     public static void main(String[] args) {
 
         usernames_passwords.put("shahd","123");
-        users.add(new User("Shahd Mahmoud Muhammed","shahd","123","shahd@gmail.com","02115","5569")) ;
+        users.add(new User("Shahd Mahmoud Muhammed","shahd","123", "shahd@gmail.com",
+                new PaypalCreditCard("Shahd Mahmoud Muhammed","Alexandria","01202468259",4587,500),new Card())) ;
 
-        while(true) {
-            System.out.println("Menu:");
-            System.out.println("\t\t1: Login");
-            System.out.println("\t\t2: Signup");
+            while (true) {
+                System.out.println("Menu:");
+                System.out.println("\t\t1: Login");
+                System.out.println("\t\t2: Signup");
 
-            System.out.println("Enter number in range 1-2: ");
-            int choice = input.nextInt();
+                System.out.println("Enter number in range 1-2: ");
+                int choice = input.nextInt();
 
-            if (choice == 1)
-                login();
-            else if (choice == 2)
-                signup();
-            else
-                System.out.println("Wrong input. Try again");
-        }
+                if (choice == 1)
+                    login();
+                else if (choice == 2)
+                    signup();
+                else
+                    System.out.println("Wrong input. Try again");
+            }
     }
 
     public static void login(){
@@ -73,13 +74,27 @@ public class Main {
         System.out.print("E-mail: ");
         String email = input.nextLine();
 
-        System.out.print("Debit Card number: ");
-        String debit_number = input.nextLine();
+        System.out.println("Enter the following information of your Paypal card: ");
 
-        System.out.print("Credit Card number: ");
-        String credit_number = input.nextLine();
+        System.out.println("Address: ");
+        String address = input.nextLine();
 
-        users.add(new User(full_name,user_name,password,email,debit_number,credit_number)) ;
+        System.out.println("Phone number: ");
+        String phone_number = input.nextLine();
+
+        System.out.println("CVV: ");
+        int cvv = input.nextInt();
+
+        input.nextLine();
+
+        System.out.println("Balance: ");
+        double balance = input.nextDouble();
+
+        input.nextLine();
+
+        PaypalCreditCard card = new PaypalCreditCard(full_name,address,phone_number,cvv,balance);
+
+        users.add(new User(full_name,user_name,password,email,card, new Card())) ;
         usernames_passwords.put(user_name,password);
 
         System.out.println("Registration Successful !");
@@ -95,33 +110,45 @@ public class Main {
         for(User usr : users){
             if (usr.getUsername().equals(username) && usr.getPassword().equals(password))
                 user = usr;
+            break;
         }
 
-        System.out.printf("Hello %s | User View\n", user.getFull_name());
-        System.out.println("Menu:");
-        System.out.println("\t\t1: View Profile");
-        System.out.println("\t\t2: Make Itinerary");
-        System.out.println("\t\t3: List my itineraries");
-        System.out.println("\t\t4: Logout");
+        while(true) {
 
-        int choice = input.nextInt();
+            System.out.printf("Hello %s | User View\n", user.getFull_name());
+            System.out.println("Menu:");
+            System.out.println("\t\t1: View Profile");
+            System.out.println("\t\t2: Make Itinerary");
+            System.out.println("\t\t3: List my itineraries");
+            System.out.println("\t\t4: Logout");
 
-        if(choice == 1){
+            int choice = input.nextInt();
 
-        }
+            if (choice == 1) {
+            }
+            else if (choice == 2) {
+                makeItinerary(user);
+            }
 
-        else if(choice == 2)
-            makeItinerary(user);
+            else if (choice == 3) {
+                Itinerary.list();
+            }
 
-        else if(choice == 3){
-
-            Itinerary.list();
+            else if(choice == 4){
+                break;
+            }
+            else{
+                System.out.println("Wrong input. Try again");
+            }
         }
     }
 
     public static <E> void makeItinerary(User user){
 
+        int itinerary_cnt = 0;
+
         while(true) {
+
             System.out.println("Menu:");
             System.out.println("\t\t1: Add Flight");
             System.out.println("\t\t2: Add Hotel");
@@ -130,38 +157,38 @@ public class Main {
 
             int choice = input.nextInt();
 
-            if (choice == 1)
-                addFlight(user.getFull_name());
+            if (choice == 1) {
+                addFlight();
+                ++itinerary_cnt;
+            } else if (choice == 2) {
+                addHotel();
+                ++itinerary_cnt;
+            } else if (choice == 3) {
 
-            else if(choice == 2)
-                 addHotel();
+                if (payment(user))
+                    System.out.println("Transaction is successful");
 
-            else if (choice == 3) {
-                System.out.println("Enter payment choice: ");
-                System.out.printf("1: Debit Card - Owner : %s Card Number : %s\n", user.getFull_name(), user.getDebit());
-                System.out.printf("2: Credit Card - Owner : %s Card Number : %s\n", user.getFull_name(), user.getCredit());
+                else {
+                    System.out.println("Transaction failed");
 
-                int n = input.nextInt();
-
-                System.out.println("Money withdrawn successfully");
-                System.out.println("Reservation Confirmed");
-                System.out.println("Itinerary Reserved");
+                    while(itinerary_cnt > 0){
+                        int size = Itinerary.bookedItems.size();
+                        Itinerary.bookedItems.remove(size-1);
+                        --itinerary_cnt;
+                    }
+                }
 
                 break;
-
             }
-//        else if(choice == 4){
+
+//            else if (choice == 4) {
 //
-//        }
-//        else{
-//            System.out.println("Wrong input. Please try again");
-//        }
+//            }
+
         }
     }
 
-    public static <E> void addFlight(String fullName){
-
-        String user_fullName = fullName;
+    public static <E> void addFlight(){
 
         input.nextLine();
 
@@ -212,10 +239,10 @@ public class Main {
             chosenFlight = flights.get(choice - 1);
         }
         else{
-            chosenFlight = flights2.get(choice-flights.size());
+            chosenFlight = flights2.get(choice-flights.size()-1);
         }
 
-        TurkishFlightsAPI.bookFlight(chosenFlight, fromCity, toCity, adults, children);
+        Flight.bookFlight(chosenFlight, fromCity, toCity, adults, children);
     }
 
     public static <E> void addHotel(){
@@ -249,13 +276,63 @@ public class Main {
             System.out.println("to date: "+room.getToDate());
         }
 
+        ArrayList<MariottRoom> Marriott = MarriottAPI.getRooms();
+
+        for(MariottRoom room : Marriott){
+            System.out.print("Hotel : "+room.getHotel_name()+" ");
+            System.out.print("Room type: "+room.room_type+" ");
+            System.out.print("Price per night: "+room.cost+" ");
+            System.out.print("From date: "+room.getFromDate()+" ");
+            System.out.println("to date: "+room.getToDate());
+        }
+
         System.out.print("Enter the number of your choice: ");
         int choice = input.nextInt();
 
         input.nextLine();
 
-        Hotel chosenHotel = Hilton.get(choice-1);
+        Hotel chosenHotel;
+
+        if(choice < Hilton.size())
+             chosenHotel = Hilton.get(choice-1);
+        else
+            chosenHotel = Marriott.get(choice-Hilton.size()-1);
 
         HiltonAPI.bookRoom(chosenHotel,city,country,adults,children);
+    }
+
+    public static <E> boolean payment(User user){
+
+        System.out.println("Choose payment method from your cards : ");
+
+        int cnt = 0 ;
+        if(user.getCard1() != null) {
+            ++cnt;
+            System.out.printf("%d: %s\n",cnt, user.getCard1().getCard_name());
+        }
+
+        if(user.getCard2().phone_number != null) {
+            ++cnt;
+            System.out.printf("%d: %s\n",cnt, user.getCard2().getCard_name());
+        }
+
+        int card_number = input.nextInt();
+        input.nextLine();
+
+        boolean status;
+        if(cnt == 2){
+            if(card_number == 1){
+                status = Card.makePayment(user.getCard1(),Itinerary.getTotalCost());
+            }
+            else{
+                status =  Card.makePayment(user.getCard2(),Itinerary.getTotalCost());
+            }
+        }
+
+        else{
+            status = Card.makePayment(user.getCard1(),Itinerary.getTotalCost());
+        }
+
+        return status;
     }
 }

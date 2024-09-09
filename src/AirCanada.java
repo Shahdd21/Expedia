@@ -4,7 +4,7 @@ public class AirCanada extends Flight{
     }
 
     AirCanada(String airlineName, String fromDate, String toDate, double cost){
-        super("AirCanada", fromDate, toDate, cost);
+        super("AirCanada Airline", fromDate, toDate, cost);
     }
 
     public String toString(){

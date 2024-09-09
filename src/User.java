@@ -3,19 +3,19 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String debit_card_number;
-    private String credit_card_number;
+    private Card card1;
+    private Card card2;
 
     public User(){
     }
 
-    public User(String full_name, String username, String password, String email, String debit_card_number, String credit_card_number){
+    public User(String full_name, String username, String password, String email, Card card1, Card card2){
         this.full_name = full_name;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.debit_card_number = debit_card_number;
-        this.credit_card_number = credit_card_number;
+        this.card1 = card1;
+        this.card2 = card2;
     }
 
     public String getFull_name(){
@@ -30,11 +30,11 @@ public class User {
         return password;
     }
 
-    public String getDebit(){
-        return debit_card_number;
+    public Card getCard1() {
+        return card1;
     }
 
-    public String getCredit(){
-       return credit_card_number;
+    public Card getCard2(){
+        return card2;
     }
 }
