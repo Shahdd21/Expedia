@@ -1,16 +1,23 @@
+import java.nio.channels.InterruptedByTimeoutException;
 import java.util.*;
 
 public class Main {
 
     static Scanner input = new Scanner(System.in);
+
     static Map<String, String> usernames_passwords = new HashMap<>();
+    static {
+        usernames_passwords.put("shahd","123");
+    }
     static Set<User> users = new HashSet<>();
+    static {
+        users.add(new User("Shahd Mahmoud Muhammed","shahd","123", "shahd@gmail.com",
+                new PaypalCreditCard("Shahd Mahmoud Muhammed","Alexandria","01202468259",4587,500),
+                new StripeCreditCard("Shahd Mahmoud Muhammed","Alexandria","01202468259",4587,1000))) ;
+
+    }
 
     public static void main(String[] args) {
-
-        usernames_passwords.put("shahd","123");
-        users.add(new User("Shahd Mahmoud Muhammed","shahd","123", "shahd@gmail.com",
-                new PaypalCreditCard("Shahd Mahmoud Muhammed","Alexandria","01202468259",4587,500),new Card())) ;
 
             while (true) {
                 System.out.println("Menu:");
@@ -74,7 +81,13 @@ public class Main {
         System.out.print("E-mail: ");
         String email = input.nextLine();
 
-        System.out.println("Enter the following information of your Paypal card: ");
+        System.out.println("Which card do you want to add? :");
+        System.out.println("1- PayPal\n2- Stripe");
+
+        int card_num = input.nextInt();
+        input.nextLine();
+
+        System.out.println("Enter the following information of your card: ");
 
         System.out.println("Address: ");
         String address = input.nextLine();
@@ -92,9 +105,14 @@ public class Main {
 
         input.nextLine();
 
-        PaypalCreditCard card = new PaypalCreditCard(full_name,address,phone_number,cvv,balance);
+        PaypalCreditCard card1 = new PaypalCreditCard();
+        StripeCreditCard card2 = new StripeCreditCard();
 
-        users.add(new User(full_name,user_name,password,email,card, new Card())) ;
+        if(card_num == 1) card1 = new PaypalCreditCard(full_name,address,phone_number,cvv,balance);
+        if(card_num == 2) card2 = new StripeCreditCard(full_name,address,phone_number,cvv,balance);
+
+
+        users.add(new User(full_name,user_name,password,email,card1,card2)) ;
         usernames_passwords.put(user_name,password);
 
         System.out.println("Registration Successful !");
@@ -125,6 +143,11 @@ public class Main {
             int choice = input.nextInt();
 
             if (choice == 1) {
+                System.out.println("Full name: "+user.getFull_name());
+                System.out.println("Username: "+user.getUsername());
+                System.out.println("Password: "+user.getPassword());
+                System.out.println("Card 1 details: "+user.getCard1().toString());
+                System.out.println("Card 2 details: "+user.getCard2().toString());
             }
             else if (choice == 2) {
                 makeItinerary(user);
@@ -163,7 +186,8 @@ public class Main {
             } else if (choice == 2) {
                 addHotel();
                 ++itinerary_cnt;
-            } else if (choice == 3) {
+            }
+            else if (choice == 3) {
 
                 if (payment(user))
                     System.out.println("Transaction is successful");
@@ -171,19 +195,17 @@ public class Main {
                 else {
                     System.out.println("Transaction failed");
 
-                    while(itinerary_cnt > 0){
-                        int size = Itinerary.bookedItems.size();
-                        Itinerary.bookedItems.remove(size-1);
-                        --itinerary_cnt;
-                    }
+                    Itinerary.removeFromTotalCost(itinerary_cnt);
                 }
 
                 break;
             }
 
-//            else if (choice == 4) {
-//
-//            }
+            else if (choice == 4) {
+                Itinerary.removeFromTotalCost(itinerary_cnt);
+                System.out.println("Reservations are cancelled");
+                break;
+            }
 
         }
     }
@@ -335,4 +357,5 @@ public class Main {
 
         return status;
     }
+
 }

@@ -10,7 +10,7 @@ public class Itinerary<E extends Bookable> {
 
     private static double totalCost = 0.0;
 
-    public static final ArrayList<Itinerary<? extends Bookable>> bookedItems = new ArrayList<>();
+    private static final ArrayList<Itinerary<? extends Bookable>> bookedItems = new ArrayList<>();
 
     Itinerary(){}
 
@@ -43,5 +43,19 @@ public class Itinerary<E extends Bookable> {
 
     public static double getTotalCost(){
         return totalCost;
+    }
+
+    public static void removeFromTotalCost(int cnt){
+
+        while(cnt > 0){
+
+            int size = bookedItems.size();
+            Itinerary<? extends Bookable> ite = bookedItems.get(size-1);
+
+            totalCost -= ite.flight_or_hotel.getCost();
+
+            bookedItems.remove(ite);
+            --cnt;
+        }
     }
 }
