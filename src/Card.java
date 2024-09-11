@@ -19,7 +19,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return card_name+"\n"+user_full_name+" "+address+" "+phone_number+"\n"+cvv+" "+balance;
+        return card_name+"\n"+user_full_name+" "+address+" "+phone_number+"\nCvv: "+cvv+" Balance: "+balance;
     }
 
     public double getBalance() {

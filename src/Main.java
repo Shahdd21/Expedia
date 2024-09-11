@@ -20,19 +20,25 @@ public class Main {
     public static void main(String[] args) {
 
             while (true) {
-                System.out.println("Menu:");
-                System.out.println("\t\t1: Login");
-                System.out.println("\t\t2: Signup");
+                try {
+                    System.out.println("Menu:");
+                    System.out.println("\t\t1: Login");
+                    System.out.println("\t\t2: Signup");
 
-                System.out.println("Enter number in range 1-2: ");
-                int choice = input.nextInt();
+                    System.out.println("Enter number in range 1-2: ");
+                    int choice = input.nextInt();
 
-                if (choice == 1)
-                    login();
-                else if (choice == 2)
-                    signup();
-                else
-                    System.out.println("Wrong input. Try again");
+                    if (choice == 1)
+                        login();
+                    else if (choice == 2)
+                        signup();
+                    else
+                        System.out.println("Wrong input. Try again");
+                }
+                catch (InputMismatchException ex){
+                    System.out.println("Invalid input. Try again");
+                    input.nextLine();
+                }
             }
     }
 
@@ -132,36 +138,62 @@ public class Main {
         }
 
         while(true) {
+            try {
+                System.out.println("**********************************************");
 
-            System.out.printf("Hello %s | User View\n", user.getFull_name());
-            System.out.println("Menu:");
-            System.out.println("\t\t1: View Profile");
-            System.out.println("\t\t2: Make Itinerary");
-            System.out.println("\t\t3: List my itineraries");
-            System.out.println("\t\t4: Logout");
+                System.out.printf("Hello %s | User View\n", user.getFull_name());
+                System.out.println("Menu:");
+                System.out.println("\t\t1: View Profile");
+                System.out.println("\t\t2: Make Itinerary");
+                System.out.println("\t\t3: List my itineraries");
+                System.out.println("\t\t4: Logout");
 
-            int choice = input.nextInt();
+                int choice = input.nextInt();
 
-            if (choice == 1) {
-                System.out.println("Full name: "+user.getFull_name());
-                System.out.println("Username: "+user.getUsername());
-                System.out.println("Password: "+user.getPassword());
-                System.out.println("Card 1 details: "+user.getCard1().toString());
-                System.out.println("Card 2 details: "+user.getCard2().toString());
+                if (choice == 1) {
+                   viewProfile(user);
+                } else if (choice == 2) {
+                    makeItinerary(user);
+                } else if (choice == 3) {
+                    Itinerary.list();
+                } else if (choice == 4) {
+                    break;
+                } else {
+                    System.out.println("Wrong input. Try again");
+                }
             }
-            else if (choice == 2) {
-                makeItinerary(user);
+            catch (InputMismatchException ex){
+                System.out.println("Invalid input. Try again");
+                input.nextLine();
             }
+        }
+    }
 
-            else if (choice == 3) {
-                Itinerary.list();
-            }
+    public static void viewProfile(User user){
+        System.out.println("Full name: " + user.getFull_name());
+        System.out.println("Username: " + user.getUsername());
+        System.out.println("Password: " + user.getPassword());
 
-            else if(choice == 4){
-                break;
-            }
-            else{
-                System.out.println("Wrong input. Try again");
+        if(user.getCard1().phone_number != null)
+          System.out.println("Card 1 details: " + user.getCard1().toString());
+
+        if(user.getCard2().phone_number != null)
+          System.out.println("Card 2 details: " + user.getCard2().toString());
+
+        System.out.println("- - - - - - - - - - - - - - - - -") ;
+
+        System.out.println("Do you want to add a card? Y/N");
+
+        input.nextLine();
+
+        String choice = input.nextLine();
+
+        while(true) {
+            if (choice.equals("Y")) {
+
+                if (user.getCard2().phone_number != null && user.getCard1().phone_number != null)
+                    System.out.println("You already have the two supported cards");
+
             }
         }
     }
@@ -214,113 +246,124 @@ public class Main {
 
         input.nextLine();
 
-        System.out.print("Enter from (city): ");
-        String fromCity = input.nextLine();
+        try {
+            System.out.print("Enter from (city): ");
+            String fromCity = input.nextLine();
 
-        System.out.print("Enter to (city): ");
-        String toCity = input.nextLine();
+            System.out.print("Enter to (city): ");
+            String toCity = input.nextLine();
 
-        System.out.print("Enter from (date): ");
-        String fromDate = input.nextLine();
+            System.out.print("Enter from (date): ");
+            String fromDate = input.nextLine();
 
-        System.out.print("Enter to (date): ");
-        String toDate = input.nextLine();
+            System.out.print("Enter to (date): ");
+            String toDate = input.nextLine();
 
-        System.out.print("Enter number of adults and children :");
-        int adults = input.nextInt();
-        int children = input.nextInt();
+            System.out.print("Enter number of adults and children :");
+            int adults = input.nextInt();
+            int children = input.nextInt();
 
-        ArrayList<TurkishFlight> flights = TurkishFlightsAPI.getFlights();
+            ArrayList<TurkishFlight> flights = TurkishFlightsAPI.getFlights();
 
-        for(TurkishFlight flight : flights){
-            System.out.print("Airline: ");
-            System.out.println(flight.getAirlineName());
-            System.out.print("Departure date : "+flight.getFromDate()+" ");
-            System.out.print("Arrival date : "+flight.getToDate()+" ");
-            System.out.println("Cost : "+flight.getCost());
+            for (TurkishFlight flight : flights) {
+                System.out.print("Airline: ");
+                System.out.println(flight.getAirlineName());
+                System.out.print("Departure date : " + flight.getFromDate() + " ");
+                System.out.print("Arrival date : " + flight.getToDate() + " ");
+                System.out.println("Cost : " + flight.getCost());
+            }
+
+            ArrayList<AirCanada> flights2 = AirCanadaAPI.getFlights();
+
+            for (AirCanada flight : flights2) {
+                System.out.print("Airline: ");
+                System.out.println(flight.getAirlineName());
+                System.out.print("Departure date : " + flight.getFromDate() + " ");
+                System.out.print("Arrival date : " + flight.getToDate() + " ");
+                System.out.println("Cost : " + flight.getCost());
+            }
+
+            System.out.print("Enter the number of your choice: ");
+            int choice = input.nextInt();
+
+            input.nextLine();
+
+            Flight chosenFlight;
+
+            if (choice <= flights.size()) {
+                chosenFlight = flights.get(choice - 1);
+            } else {
+                chosenFlight = flights2.get(choice - flights.size() - 1);
+            }
+
+            Flight.bookFlight(chosenFlight, fromCity, toCity, adults, children);
         }
-
-        ArrayList<AirCanada> flights2 = AirCanadaAPI.getFlights();
-
-        for(AirCanada flight : flights2){
-            System.out.print("Airline: ");
-            System.out.println(flight.getAirlineName());
-            System.out.print("Departure date : "+flight.getFromDate()+" ");
-            System.out.print("Arrival date : "+flight.getToDate()+" ");
-            System.out.println("Cost : "+flight.getCost());
+        catch (InputMismatchException ex){
+            System.out.println("Invalid input. Try again");
+            input.nextLine();
         }
-
-        System.out.print("Enter the number of your choice: ");
-        int choice = input.nextInt();
-
-        input.nextLine();
-
-        Flight chosenFlight;
-
-        if(choice < flights.size()) {
-            chosenFlight = flights.get(choice - 1);
-        }
-        else{
-            chosenFlight = flights2.get(choice-flights.size()-1);
-        }
-
-        Flight.bookFlight(chosenFlight, fromCity, toCity, adults, children);
     }
 
     public static <E> void addHotel(){
 
         input.nextLine();
 
-        System.out.print("Enter city: ");
-        String city = input.nextLine();
+        try {
+            System.out.print("Enter city: ");
+            String city = input.nextLine();
 
-        System.out.print("Enter country: ");
-        String country = input.nextLine();
+            System.out.print("Enter country: ");
+            String country = input.nextLine();
 
-        System.out.print("Enter from (date): ");
-        String fromDate = input.nextLine();
+            System.out.print("Enter from (date): ");
+            String fromDate = input.nextLine();
 
-        System.out.print("Enter to (date): ");
-        String toDate = input.nextLine();
+            System.out.print("Enter to (date): ");
+            String toDate = input.nextLine();
 
-        System.out.print("Enter number of adults and children :");
-        int adults = input.nextInt();
-        int children = input.nextInt();
+            System.out.print("Enter number of adults and children :");
+            int adults = input.nextInt();
+            int children = input.nextInt();
 
-        ArrayList<HiltonRoom> Hilton = HiltonAPI.getRooms();
+            ArrayList<HiltonRoom> Hilton = HiltonAPI.getRooms();
 
-        for(HiltonRoom room : Hilton){
+            for (HiltonRoom room : Hilton) {
 
-            System.out.print("Hotel : "+room.getHotel_name()+" ");
-            System.out.print("Room type: "+room.room_type+" ");
-            System.out.print("Price per night: "+room.cost+" ");
-            System.out.print("From date: "+room.getFromDate()+" ");
-            System.out.println("to date: "+room.getToDate());
+                System.out.print("Hotel : " + room.getHotel_name() + " ");
+                System.out.print("Room type: " + room.room_type + " ");
+                System.out.print("Price per night: " + room.cost + " ");
+                System.out.print("From date: " + room.getFromDate() + " ");
+                System.out.println("to date: " + room.getToDate());
+            }
+
+            ArrayList<MariottRoom> Marriott = MarriottAPI.getRooms();
+
+            for (MariottRoom room : Marriott) {
+                System.out.print("Hotel : " + room.getHotel_name() + " ");
+                System.out.print("Room type: " + room.room_type + " ");
+                System.out.print("Price per night: " + room.cost + " ");
+                System.out.print("From date: " + room.getFromDate() + " ");
+                System.out.println("to date: " + room.getToDate());
+            }
+
+            System.out.print("Enter the number of your choice: ");
+            int choice = input.nextInt();
+
+            input.nextLine();
+
+            Hotel chosenHotel;
+
+            if (choice <= Hilton.size())
+                chosenHotel = Hilton.get(choice - 1);
+            else
+                chosenHotel = Marriott.get(choice - Hilton.size() - 1);
+
+            HiltonAPI.bookRoom(chosenHotel, city, country, adults, children);
         }
-
-        ArrayList<MariottRoom> Marriott = MarriottAPI.getRooms();
-
-        for(MariottRoom room : Marriott){
-            System.out.print("Hotel : "+room.getHotel_name()+" ");
-            System.out.print("Room type: "+room.room_type+" ");
-            System.out.print("Price per night: "+room.cost+" ");
-            System.out.print("From date: "+room.getFromDate()+" ");
-            System.out.println("to date: "+room.getToDate());
+        catch (InputMismatchException ex){
+            System.out.println("Invalid input. Try again");
+            input.nextLine();
         }
-
-        System.out.print("Enter the number of your choice: ");
-        int choice = input.nextInt();
-
-        input.nextLine();
-
-        Hotel chosenHotel;
-
-        if(choice < Hilton.size())
-             chosenHotel = Hilton.get(choice-1);
-        else
-            chosenHotel = Marriott.get(choice-Hilton.size()-1);
-
-        HiltonAPI.bookRoom(chosenHotel,city,country,adults,children);
     }
 
     public static <E> boolean payment(User user){
