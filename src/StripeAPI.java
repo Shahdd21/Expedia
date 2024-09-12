@@ -2,10 +2,11 @@ public class StripeAPI {
 
     public static boolean makePayment(Card card, double money) {
 
-        if (card.balance < money)
+        if (card.getBalance() < money)
             return false;
         else {
-            card.balance -= money;
+            double balance = card.getBalance();
+            card.setBalance(balance-money);
             return true;
         }
     }

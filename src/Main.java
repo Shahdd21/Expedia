@@ -111,12 +111,11 @@ public class Main {
 
         input.nextLine();
 
-        PaypalCreditCard card1 = new PaypalCreditCard();
-        StripeCreditCard card2 = new StripeCreditCard();
+        PaypalCreditCard card1 ;
+        StripeCreditCard card2 ;
 
-        if(card_num == 1) card1 = new PaypalCreditCard(full_name,address,phone_number,cvv,balance);
-        if(card_num == 2) card2 = new StripeCreditCard(full_name,address,phone_number,cvv,balance);
-
+        card1 = (card_num == 1 ? new PaypalCreditCard(full_name,address,phone_number,cvv,balance) : null);
+        card2 = (card_num == 2 ? new StripeCreditCard(full_name,address,phone_number,cvv,balance) : null);
 
         users.add(new User(full_name,user_name,password,email,card1,card2)) ;
         usernames_passwords.put(user_name,password);
@@ -174,10 +173,10 @@ public class Main {
         System.out.println("Username: " + user.getUsername());
         System.out.println("Password: " + user.getPassword());
 
-        if(user.getCard1().phone_number != null)
+        if(user.getCard1() != null)
           System.out.println("Card 1 details: " + user.getCard1().toString());
 
-        if(user.getCard2().phone_number != null)
+        if(user.getCard2() != null)
           System.out.println("Card 2 details: " + user.getCard2().toString());
 
         System.out.println("- - - - - - - - - - - - - - - - -") ;
@@ -188,14 +187,48 @@ public class Main {
 
         String choice = input.nextLine();
 
-        while(true) {
             if (choice.equals("Y")) {
 
-                if (user.getCard2().phone_number != null && user.getCard1().phone_number != null)
+                if (user.getCard2() != null && user.getCard1() != null)
                     System.out.println("You already have the two supported cards");
 
+                else{
+
+                    System.out.println("Enter the following information: ");
+                    System.out.println("Phone number associated with the card: ");
+                    String phone = input.nextLine();
+
+                    System.out.println("Address: ");
+                    String address = input.nextLine();
+
+                    System.out.println("CVV: ");
+                    int cvv = input.nextInt();
+
+                    System.out.println("Balance: ");
+                    double balance = input.nextDouble();
+
+                    input.nextLine();
+
+                    Card card;
+                    if(user.getCard1() == null) {
+                        card = new PaypalCreditCard(user.getFull_name(), address, phone, cvv, balance);
+                        user.setCard1((PaypalCreditCard) card);
+                    }
+
+                    else {
+                        card = new StripeCreditCard(user.getFull_name(), address, phone, cvv, balance);
+                        user.setCard2((StripeCreditCard) card);
+                    }
+
+                    System.out.println("Card is added successfully !");
+                }
             }
-        }
+            else if (choice.equals("N"))
+                return ;
+
+            else {
+                System.out.println("Wrong input. Try again");
+            }
     }
 
     public static <E> void makeItinerary(User user){
@@ -376,7 +409,7 @@ public class Main {
             System.out.printf("%d: %s\n",cnt, user.getCard1().getCard_name());
         }
 
-        if(user.getCard2().phone_number != null) {
+        if(user.getCard2().getPhone_number() != null) {
             ++cnt;
             System.out.printf("%d: %s\n",cnt, user.getCard2().getCard_name());
         }
