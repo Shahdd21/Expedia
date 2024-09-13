@@ -9,7 +9,7 @@ public class Main {
     static {
         usernames_passwords.put("shahd","123");
     }
-    static Set<User> users = new HashSet<>();
+    static ArrayList<User> users = new ArrayList<>();
     static {
         users.add(new User("Shahd Mahmoud Muhammed","shahd","123", "shahd@gmail.com",
                 new PaypalCreditCard("Shahd Mahmoud Muhammed","Alexandria","01202468259",4587,500),
@@ -61,8 +61,13 @@ public class Main {
                 System.out.println("Wrong input. Try again.");
         }
 
-        else if(usernames_passwords.get(username).equals(password))
-            userView(username,password);
+        else if(usernames_passwords.get(username).equals(password)) {
+            for (User user : users) {
+                if (user.getUsername().equals(username)) {
+                    userView(user);
+                }
+            }
+        }
 
         else{
             System.out.println("Password is incorrect. Try again");
@@ -127,14 +132,7 @@ public class Main {
         System.out.println();
     }
 
-    public static void userView(String username, String password){
-
-        User user = new User();
-        for(User usr : users){
-            if (usr.getUsername().equals(username) && usr.getPassword().equals(password))
-                user = usr;
-            break;
-        }
+    public static void userView(User user){
 
         while(true) {
             try {
@@ -409,7 +407,7 @@ public class Main {
             System.out.printf("%d: %s\n",cnt, user.getCard1().getCard_name());
         }
 
-        if(user.getCard2().getPhone_number() != null) {
+        if(user.getCard2() != null) {
             ++cnt;
             System.out.printf("%d: %s\n",cnt, user.getCard2().getCard_name());
         }
