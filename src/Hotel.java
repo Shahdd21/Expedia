@@ -37,4 +37,11 @@ public abstract class Hotel implements Bookable{
     public String getHotel_name(){
         return hotel_name;
     }
+
+    public static void bookHotel(User user, Hotel hotel, String city, String country, int adults, int children){
+        if(hotel.getHotel_name().equals("Hilton Hotel"))
+            HiltonAPI.bookRoom(user,hotel,city,country,adults,children);
+        else
+            MarriottAPI.bookRoom(user,hotel,city,country,adults,children);
+    }
 }

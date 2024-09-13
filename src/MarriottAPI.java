@@ -12,8 +12,8 @@ public class MarriottAPI {
         return rooms;
     }
 
-    public static void bookRoom(Hotel hotel,String fromCity, String toCity, int children, int adults){
+    public static void bookRoom(User user,Hotel hotel,String fromCity, String toCity, int children, int adults){
         Itinerary<Hotel> iti = new Itinerary<>(hotel, fromCity, toCity, adults, children);
-        iti.add();
+        user.add(iti);
     }
 }

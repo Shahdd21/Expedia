@@ -152,7 +152,7 @@ public class Main {
                 } else if (choice == 2) {
                     makeItinerary(user);
                 } else if (choice == 3) {
-                    Itinerary.list();
+                    user.list();
                 } else if (choice == 4) {
                     break;
                 } else {
@@ -244,10 +244,10 @@ public class Main {
             int choice = input.nextInt();
 
             if (choice == 1) {
-                addFlight();
+                addFlight(user);
                 ++itinerary_cnt;
             } else if (choice == 2) {
-                addHotel();
+                addHotel(user);
                 ++itinerary_cnt;
             }
             else if (choice == 3) {
@@ -258,14 +258,14 @@ public class Main {
                 else {
                     System.out.println("Transaction failed");
 
-                    Itinerary.removeFromTotalCost(itinerary_cnt);
+                    user.removeFromTotalCost(itinerary_cnt);
                 }
 
                 break;
             }
 
             else if (choice == 4) {
-                Itinerary.removeFromTotalCost(itinerary_cnt);
+                user.removeFromTotalCost(itinerary_cnt);
                 System.out.println("Reservations are cancelled");
                 break;
             }
@@ -273,7 +273,7 @@ public class Main {
         }
     }
 
-    public static <E> void addFlight(){
+    public static <E> void addFlight(User user){
 
         input.nextLine();
 
@@ -327,7 +327,7 @@ public class Main {
                 chosenFlight = flights2.get(choice - flights.size() - 1);
             }
 
-            Flight.bookFlight(chosenFlight, fromCity, toCity, adults, children);
+            Flight.bookFlight(user,chosenFlight, fromCity, toCity, adults, children);
         }
         catch (InputMismatchException ex){
             System.out.println("Invalid input. Try again");
@@ -335,7 +335,7 @@ public class Main {
         }
     }
 
-    public static <E> void addHotel(){
+    public static <E> void addHotel(User user){
 
         input.nextLine();
 
@@ -389,7 +389,7 @@ public class Main {
             else
                 chosenHotel = Marriott.get(choice - Hilton.size() - 1);
 
-            HiltonAPI.bookRoom(chosenHotel, city, country, adults, children);
+            Hotel.bookHotel(user,chosenHotel, city, country, adults, children);
         }
         catch (InputMismatchException ex){
             System.out.println("Invalid input. Try again");
@@ -418,15 +418,15 @@ public class Main {
         boolean status;
         if(cnt == 2){
             if(card_number == 1){
-                status = Card.makePayment(user.getCard1(),Itinerary.getTotalCost());
+                status = Card.makePayment(user.getCard1(),user.getTotalCost());
             }
             else{
-                status =  Card.makePayment(user.getCard2(),Itinerary.getTotalCost());
+                status =  Card.makePayment(user.getCard2(),user.getTotalCost());
             }
         }
 
         else{
-            status = Card.makePayment(user.getCard1(),Itinerary.getTotalCost());
+            status = Card.makePayment(user.getCard1(),user.getTotalCost());
         }
 
         return status;

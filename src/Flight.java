@@ -31,11 +31,11 @@ public abstract class Flight implements Bookable {
         return cost;
     }
 
-    public static void bookFlight(Flight flight, String fromCity, String toCity, int adults, int children){
+    public static void bookFlight(User user, Flight flight, String fromCity, String toCity, int adults, int children){
         if(flight.getAirlineName().equals("Turkish Airline"))
-            TurkishFlightsAPI.bookFlight(flight,fromCity,toCity,adults,children);
+            TurkishFlightsAPI.bookFlight(user,flight,fromCity,toCity,adults,children);
 
         else if(flight.getAirlineName().equals("AirCanada Airline"))
-            AirCanadaAPI.bookFlight(flight,fromCity,toCity,adults,children);
+            AirCanadaAPI.bookFlight(user,flight,fromCity,toCity,adults,children);
     }
 }

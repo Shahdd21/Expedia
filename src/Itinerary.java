@@ -8,9 +8,6 @@ public class Itinerary<E extends Bookable> {
     private String fromCity;
     private String toCity;
 
-    private static double totalCost = 0.0;
-
-    private static final ArrayList<Itinerary<? extends Bookable>> bookedItems = new ArrayList<>();
 
     Itinerary(){}
 
@@ -20,42 +17,25 @@ public class Itinerary<E extends Bookable> {
         this.toCity = toCity;
         this.children = children;
         this.adults = adults;
-
-        totalCost += flight_or_hotel.getCost();
     }
 
-    public void add(){
-        bookedItems.add(this);
+    public E getFlight_or_hotel(){
+        return flight_or_hotel;
     }
 
-    public static void list(){
-        for(Itinerary<? extends Bookable> ite : bookedItems){
-            System.out.println(ite.flight_or_hotel.toString());
-            System.out.println("From: "+ite.fromCity);
-            System.out.println("to: "+ite.toCity);
-            System.out.println("Adults: "+ite.adults+" children: "+ite.children);
-            System.out.println("-----------------------------");
-        }
-
-        Itinerary ite = new Itinerary<>();
-        System.out.println("Total cost: "+ite.totalCost);
+    public int getAdults() {
+        return adults;
     }
 
-    public static double getTotalCost(){
-        return totalCost;
+    public int getChildren() {
+        return children;
     }
 
-    public static void removeFromTotalCost(int cnt){
+    public String getFromCity() {
+        return fromCity;
+    }
 
-        while(cnt > 0){
-
-            int size = bookedItems.size();
-            Itinerary<? extends Bookable> ite = bookedItems.get(size-1);
-
-            totalCost -= ite.flight_or_hotel.getCost();
-
-            bookedItems.remove(ite);
-            --cnt;
-        }
+    public String getToCity() {
+        return toCity;
     }
 }
