@@ -8,8 +8,8 @@ public class User {
     private PaypalCreditCard card1;
     private StripeCreditCard card2;
 
-    private static ArrayList<Itinerary<? extends Bookable>> bookedItems ;
-    private static double totalCost ;
+    private ArrayList<Itinerary<? extends Bookable>> bookedItems ;
+    private double totalCost ;
 
     public User(){
         bookedItems = new ArrayList<>();
