@@ -1,4 +1,4 @@
-# Expedia-Like Application
+# Online Travel Booking System
 
 ## Overview
 This project is a console-based application that simulates an Expedia-like booking system. It allows users to book flights and hotels, manage itineraries, and make payments using different credit card types. The application supports two types of credit cards: PayPal and Stripe. It integrates with various custom APIs to handle flight and hotel bookings.
